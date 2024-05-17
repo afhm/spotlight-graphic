@@ -1,0 +1,175 @@
+---
+import Clients from './Clients.astro';
+import GeneralTestimonials from './GeneralTestimonials.astro';
+import Testimonials from './Testimonials.astro';
+---
+
+<!-- Contact -->
+<section class="contact section-padding">
+  <div class="container">
+    <div class="row mb-90">
+      <div class="col-md-6 mb-60">
+        <h3>The Shoolin Grand</h3>
+        <p class="ls-6">
+          Discover unparalleled luxury with Afham, where every stay is transformed into a memorable event. Be it grand
+          celebrations, high-profile business meetings, or serene getaways, our properties serve as the ideal backdrop
+          for every occasion, crafting bespoke experiences that bring your dreams to life.
+        </p>
+        <div class="reservations mb-30">
+          <div class="icon"><span class="flaticon-call"></span></div>
+          <div class="text">
+            <p>Reservation</p>
+            <a href="tel:08204202444">0820-4202444</a>
+          </div>
+        </div>
+        <div class="reservations mb-30">
+          <div class="icon">
+            <a href="mailto:shoolingrand@afhams.xyz"><span class="flaticon-envelope"></span></a>
+          </div>
+          <div class="text">
+            <p>Email Info</p>
+            <a href="mailto:info@afhams.xyz">shoolingrand@afhams.xyz</a>
+          </div>
+        </div>
+        <div class="reservations">
+          <div class="icon"><span class="flaticon-location-pin"></span></div>
+          <div class="text">
+            <p>Address</p>
+            Shoolin Grand, Light House Hill Rd, Hampankatta, Mangaluru, Karnataka 575001
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 mb-30 offset-md-1">
+        <h3>Get in touch</h3>
+        <form id="contact-form" method="POST" class="contact__form" data-astro-reload>
+          <input type="hidden" name="access_key" value="6b4cad43-3717-4ccb-8fb0-c7296b92cc66" />
+          <!-- form message -->
+          <div class="row">
+            <div class="col-12">
+              <div class="alert alert-success contact__msg" style="display: none;" role="alert" id="result">
+                Your message was sent successfully.
+              </div>
+            </div>
+          </div>
+          <!-- form elements -->
+          <!-- <input type="hidden" name="_next" value="https://afhams.xyz" /> -->
+
+          <div class="row">
+            <!-- <input type="hidden" name="_template" value="table" /> -->
+
+            <div class="col-md-6 form-group">
+              <input name="name" type="text" placeholder="Your Name *" required="" />
+            </div>
+            <div class="col-md-6 form-group">
+              <input name="email" type="email" placeholder="Your Email *" required="" />
+            </div>
+            <div class="col-md-6 form-group">
+              <input name="phone" type="text" placeholder="Your Number *" required="" />
+            </div>
+            <div class="col-md-6 form-group">
+              <input name="subject" type="text" placeholder="Subject *" required="" />
+            </div>
+            <div class="col-md-12 form-group">
+              <textarea name="message" id="message" cols="30" rows="4" placeholder="Message *" required=""></textarea>
+            </div>
+            <div class="col-md-12">
+              <button type="submit" class="butn-dark2"><span>Send Message</span></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-about-social-list">
+          <a href="https://www.instagram.com/shoolingrand_mangalore?igsh=cTkzdHRwODg5azdu"
+            ><i class="ti-instagram size2"></i></a
+          >
+          <a href="https://www.facebook.com/share/vHZtCuZhXBpgaJuF/?mibextid=qi2Omg"
+            ><i class="ti-facebook size2"></i></a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- Map Section -->
+    <div class="row">
+      <div class="col-md-12 map animate-box" data-animate-effect="fadeInUp">
+        <div class="owl-carousel owl-theme">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1944.7969109718251!2d74.84212953852223!3d12.86949061169324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35a4c157f6d61%3A0xa12e161b3695f750!2sHotel%20Shoolin%20Grand!5e0!3m2!1sen!2sin!4v1713687045767!5m2!1sen!2sin"
+            width="100%"
+            height="600"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15528.291420836627!2d74.78008153655396!3d13.345744089226768!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbcbb8f42c29439%3A0xdd5d004762022898!2sShoolin%20Resorts!5e0!3m2!1sen!2sus!4v1709209062649!5m2!1sen!2sus"
+            width="100%"
+            height="600"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+          >
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Reservation & Booking Form -->
+
+<Testimonials />
+<!-- Clients -->
+<Clients />
+<script>
+  const form = document.getElementById('contact-form');
+  const result = document.getElementById('result');
+
+  form.addEventListener('submit', function (e) {
+    const formData = new FormData(form);
+    e.preventDefault();
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    result.innerHTML = 'Please wait...';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: json,
+    })
+      .then(async (response) => {
+        let json = await response.json();
+        if (response.status == 200) {
+          result.style.display = 'block';
+          result.innerHTML = json.message;
+        } else {
+          // console.log(response);
+          result.style.display = 'block';
+
+          result.innerHTML = json.message;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        result.innerHTML = 'Something went wrong!';
+      })
+      .then(function () {
+        form.reset();
+        setTimeout(() => {
+          result.style.display = 'none';
+        }, 3000);
+      });
+  });
+</script>
+
+<style>
+  .ls-6 {
+    letter-spacing: 0.02em;
+    text-align: justify;
+  }
+</style>

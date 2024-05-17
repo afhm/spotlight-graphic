@@ -1,0 +1,14 @@
+---
+const { title, subTitle, imageUrl } = Astro.props;
+---
+
+<div class="banner-header section-padding valign bg-img bg-fixed" data-overlay-dark="3" data-background={imageUrl}>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-left caption mt-90">
+        <h5>{subTitle}</h5>
+        <h1>{title}</h1>
+      </div>
+    </div>
+  </div>
+</div>
