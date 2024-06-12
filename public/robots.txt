@@ -2,5 +2,5 @@
 # Full syntax: https://developers.google.com/search/docs/advanced/robots/create-robots-txt
 User-agent: *
 Allow: /
-Host: https://afhams.xyz/
-Sitemap: https://afhams.xyz/sitemap-index.xml
+Host: https://graphicdesign.sierralearningacademy.com/
+Sitemap: https://graphicdesign.sierralearningacademy.com/sitemap-index.xml
