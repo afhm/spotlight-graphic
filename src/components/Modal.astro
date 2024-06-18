@@ -1,3 +1,12 @@
+<style>
+  .submitt {
+    float: left;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10%;
+  }
+</style>
+
 <div
   data-animation="default"
   data-collapse="medium"
@@ -10,31 +19,47 @@
   <div class="modal">
     <span class="modal-backdrop close-modal"></span>
     <div class="modal-content">
+      <div class="">
+        <div class="success-message" style="display: none;" role="alert" id="result">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="error-message" style="display: none;" role="alert" id="result">
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
       <div class="modal-header">
         <h2 class="modal-title">Contact Us</h2><button class="close-modal">&times</button>
       </div>
       <div class="modal-body">
-        <form class="form-main">
+        <form class="form-main" id="contact-form" method="POST">
+          <input type="hidden" name="access_key" value="fb6055c3-4d61-4c7f-8cbe-29b4b7065fee" />
+
           <label class="custom-field">
-            <input type="email" placeholder=" " required />
+            <input name="email" type="email" placeholder=" " required />
             <span class="placeholder">Enter Email</span>
             <!-- <span class="error-message" aria-live="polite">The email is invalid</span> -->
           </label>
 
           <label class="custom-field one">
-            <input type="text" placeholder=" " required />
+            <input name="first_name" type="text" placeholder=" " required />
             <span class="placeholder">Enter Name</span>
           </label>
 
           <label class="custom-field two">
-            <input type="number" placeholder=" " required />
+            <input
+              placeholder=""
+              pattern="[6-9]{1}[0-9]{9}"
+              title="Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9."
+              type="number"
+              required
+              name="mobile_number"
+            />
             <span class="placeholder">Enter Phone</span>
           </label>
+          <div class="modal-footer">
+            <button class="submitt" type="submit"><span>Send Message</span></button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button class="close-modal">Ok</button>
-        <button class="close-modal">Cancel</button>
       </div>
     </div>
   </div>
@@ -110,3 +135,48 @@
     </div>
   </div>
 </div>
+<script>
+  const form = document.getElementById('contact-form');
+  const result = document.getElementById('result');
+
+  form.addEventListener('submit', function (e) {
+    const formData = new FormData(form);
+    e.preventDefault();
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    result.innerHTML = 'Please wait...';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: json,
+    })
+      .then(async (response) => {
+        let json = await response.json();
+        if (response.status == 200) {
+          result.style.display = 'block';
+          result.innerHTML = json.message;
+        } else {
+          // console.log(response);
+          result.style.display = 'block';
+
+          result.innerHTML = json.message;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        result.innerHTML = 'Something went wrong!';
+      })
+      .then(function () {
+        form.reset();
+        setTimeout(() => {
+          result.style.display = 'none';
+        }, 3000);
+      });
+  });
+</script>
